@@ -8,7 +8,6 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.objects.friends.responses.GetResponse;
-import com.vk.api.sdk.objects.groups.responses.GetExtendedResponse;
 import com.vk.api.sdk.objects.groups.responses.GetObjectExtendedResponse;
 import com.vk.api.sdk.queries.friends.FriendsGetQuery;
 import com.vk.api.sdk.queries.groups.GroupsGetQueryWithObjectExtended;
@@ -30,20 +29,12 @@ public class VkConfig {
     private String CLIENT_SECRET;
     @Value("${vk.redirect_url}")
     private String REDIRECT_URI;
-    @Value("${vk.request_delay}")
-    private Long VK_REQUEST_DELAY;
 
-    private final VkQueue vkQueue;
 
     @Bean
     public VkApiClient vkApiClient(){
         TransportClient transportClient = new HttpTransportClient();
         return new VkApiClient(transportClient);
-    }
-
-    @Bean
-    public VkApiClientGetter vkApiClientGetter(){
-        return new VkApiClientGetter(VK_REQUEST_DELAY);
     }
 
     @Bean(autowireCandidate = false)
@@ -59,13 +50,5 @@ public class VkConfig {
             throw new VkServiceException(e.getMessage());
         }
         return actor;
-    }
-    @Bean
-    public QueueVkQueryHandler<FriendsGetQuery, GetResponse> vkFriendsQueryHandler(){
-        return new QueueVkQueryHandler<>(vkQueue);
-    }
-    @Bean
-    public QueueVkQueryHandler<GroupsGetQueryWithObjectExtended, GetObjectExtendedResponse> vkGroupsQueryHandler(){
-        return new QueueVkQueryHandler<>(vkQueue);
     }
 }

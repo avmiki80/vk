@@ -13,7 +13,8 @@ import java.util.concurrent.Future;
 
 @RequiredArgsConstructor
 @Slf4j
-public class QueueVkQueryHandler<Q extends AbstractQueryBuilder<?, R>, R extends Validable> {
+public class VkQueryHandler<Q extends AbstractQueryBuilder<?, R>, R extends Validable> {
+    private final Long VK_REQUEST_DELAY;
     private final VkQueue vkQueue;
 
     public R findByQuery(Q query){
@@ -44,11 +45,11 @@ public class QueueVkQueryHandler<Q extends AbstractQueryBuilder<?, R>, R extends
             try {
                 AbstractQueryBuilder<?, R> consumed = (AbstractQueryBuilder<?, R>) vkQueue.getBuffer().take();
                 result = consumed.execute();
-                Thread.sleep(1010);
+                Thread.sleep(VK_REQUEST_DELAY);
             } catch (InterruptedException e) {
                 throw new VkServiceException(e.getMessage());
             }
-            log.info("Finish");
+            log.info("Finish: " + result.getClass().getSimpleName());
             return result;
         };
     }
