@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.avm.vktest.dto.VkGroup;
 import ru.avm.vktest.dto.VkHistory;
-import ru.avm.vktest.model.BaseEntity;
 import ru.avm.vktest.model.Group;
 import ru.avm.vktest.model.History;
 
