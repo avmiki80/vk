@@ -55,6 +55,6 @@ public class VkRestLoadTesting_50 extends Simulation {
                                     .body(StringBody("s")));
 
     {
-        setUp(scn.injectOpen(constantUsersPerSec(5).during(10)).protocols(httpProtocol));
+        setUp(scn.injectOpen(constantUsersPerSec(10).during(5)).protocols(httpProtocol));
     }
 }

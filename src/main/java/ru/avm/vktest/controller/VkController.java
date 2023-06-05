@@ -1,5 +1,6 @@
 package ru.avm.vktest.controller;
 
+import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,14 +11,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.avm.vktest.dto.VkGroup;
 import ru.avm.vktest.search.VkSearch;
-import ru.avm.vktest.service.VkApiClientGetter;
 import ru.avm.vktest.service.group.GroupService;
 import ru.avm.vktest.service.VkConfig;
 import ru.avm.vktest.service.VkSearchService;
 
 import java.util.Set;
-
-import static ru.avm.vktest.util.PageRequestUtil.createPageRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +26,7 @@ public class VkController {
     @Value("${vk.app_id}")
     private Integer APP_ID;
 
-    private final VkApiClientGetter vkApiClientGetter;
+    private final VkApiClient vkApiClient;
     private final VkConfig vkConfig;
     private UserActor userActor;
     private final VkSearchService vkSearchService;
@@ -38,7 +36,6 @@ public class VkController {
     public RedirectView auth(RedirectAttributes attributes){
         final String URL = "https://oauth.vk.com/authorize";
         attributes.addAttribute("client_id" , APP_ID);
-//        attributes.addAttribute("redirect_uri" , "https://oauth.vk.com/blank.html");
         attributes.addAttribute("redirect_uri" , REDIRECT_URI);
         attributes.addAttribute("display " , "page");
         attributes.addAttribute("scope" , "offline,friends,groups");
@@ -48,7 +45,7 @@ public class VkController {
     }
     @GetMapping("/get-code")
     public ResponseEntity<String> getCode(@RequestParam(name = "code") String code){
-        userActor = vkConfig.getActor(vkApiClientGetter.getClient(), code);
+        userActor = vkConfig.getActor(vkApiClient, code);
         return ResponseEntity.ok(code);
     }
     @PostMapping("/user")
