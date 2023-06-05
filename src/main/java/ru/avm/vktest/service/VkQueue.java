@@ -1,8 +1,12 @@
 package ru.avm.vktest.service;
 
 import com.vk.api.sdk.client.AbstractQueryBuilder;
+import com.vk.api.sdk.objects.Validable;
+import com.vk.api.sdk.objects.friends.responses.GetResponse;
+import com.vk.api.sdk.objects.groups.responses.GetObjectExtendedResponse;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
+
 import javax.annotation.PreDestroy;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
