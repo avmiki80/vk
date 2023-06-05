@@ -20,16 +20,14 @@ public class VkApiClientGetter {
     }
 //Todo переделать костыль на более производительное решение
     public VkApiClient getClient(){
-        lock.lock();
-//        log.info("Thread: " + Thread.currentThread().getName() +  ", start:");
-        try {
-            Thread.sleep(VK_REQUEST_DELAY);
-        } catch (InterruptedException exception) {
-            throw new VkServiceException(exception.getMessage());
-        } finally {
-//            log.info("Thread: " + Thread.currentThread().getName() +  ", finish:");
-            lock.unlock();
-        }
+//        lock.lock();
+//        try {
+//            Thread.sleep(VK_REQUEST_DELAY);
+//        } catch (InterruptedException exception) {
+//            throw new VkServiceException(exception.getMessage());
+//        } finally {
+//            lock.unlock();
+//        }
         return vkApiClient;
     }
 }

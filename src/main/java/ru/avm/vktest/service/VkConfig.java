@@ -7,6 +7,12 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
+import com.vk.api.sdk.objects.friends.responses.GetResponse;
+import com.vk.api.sdk.objects.groups.responses.GetExtendedResponse;
+import com.vk.api.sdk.objects.groups.responses.GetObjectExtendedResponse;
+import com.vk.api.sdk.queries.friends.FriendsGetQuery;
+import com.vk.api.sdk.queries.groups.GroupsGetQueryWithObjectExtended;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +22,7 @@ import ru.avm.vktest.exception.VkServiceException;
 
 @Configuration
 @Slf4j
+@RequiredArgsConstructor
 public class VkConfig {
     @Value("${vk.app_id}")
     private Integer APP_ID;
@@ -25,6 +32,8 @@ public class VkConfig {
     private String REDIRECT_URI;
     @Value("${vk.request_delay}")
     private Long VK_REQUEST_DELAY;
+
+    private final VkQueue vkQueue;
 
     @Bean
     public VkApiClient vkApiClient(){
@@ -40,7 +49,6 @@ public class VkConfig {
     @Bean(autowireCandidate = false)
     @Scope("request")
     public UserActor getActor(VkApiClient vk, String code){
-//        log.info("vk.app_id: " + APP_ID +  " vk.client_secret: " + CLIENT_SECRET);
         UserActor actor;
         try {
             UserAuthResponse authResponse = vk.oAuth()
@@ -51,5 +59,13 @@ public class VkConfig {
             throw new VkServiceException(e.getMessage());
         }
         return actor;
+    }
+    @Bean
+    public QueueVkQueryHandler<FriendsGetQuery, GetResponse> vkFriendsQueryHandler(){
+        return new QueueVkQueryHandler<>(vkQueue);
+    }
+    @Bean
+    public QueueVkQueryHandler<GroupsGetQueryWithObjectExtended, GetObjectExtendedResponse> vkGroupsQueryHandler(){
+        return new QueueVkQueryHandler<>(vkQueue);
     }
 }
