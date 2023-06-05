@@ -15,6 +15,7 @@ public class ValidatorVkSearchService implements VkSearchService{
     private final VkSearchService vkSearchService;
     @Override
     public Set<VkGroup> findUserGroupByTitle(UserActor actor, String title) {
+        //Todo можно заменить проверку параметров во всех сервисах на паттерн стратегию
         checkEmptyObject(actor, () -> {
            throw new VkServiceException(EMPTY_ACTOR);
         });
@@ -23,6 +24,7 @@ public class ValidatorVkSearchService implements VkSearchService{
 
     @Override
     public Set<VkGroup> findUserAndFriendGroupByTitle(UserActor actor, String title) {
+        //Todo можно заменить проверку параметров во всех сервисах на паттерн стратегию
         checkEmptyObject(actor, () -> {
             throw new VkServiceException(EMPTY_ACTOR);
         });

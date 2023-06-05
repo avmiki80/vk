@@ -12,6 +12,7 @@ public class ValidatorHistoryService implements HistoryService {
     private final HistoryService historyService;
     @Override
     public void save(VkHistory history) {
+        //Todo можно заменить проверку параметров во всех сервисах на паттерн стратегию
         checkEmptyObject(history);
         checkEmptyString(history.getRequestParam(), NOT_SETTED_PARAM);
         historyService.save(history);

@@ -40,7 +40,7 @@ public class VkConfig {
     @Bean(autowireCandidate = false)
     @Scope("request")
     public UserActor getActor(VkApiClient vk, String code){
-        log.info("vk.app_id: " + APP_ID +  " vk.client_secret: " + CLIENT_SECRET);
+//        log.info("vk.app_id: " + APP_ID +  " vk.client_secret: " + CLIENT_SECRET);
         UserActor actor;
         try {
             UserAuthResponse authResponse = vk.oAuth()

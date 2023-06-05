@@ -13,6 +13,7 @@ public class ValidatorGroupService implements GroupService{
     private final GroupService groupService;
     @Override
     public Page<VkGroup> search(VkSearch search) {
+        //Todo можно заменить проверку параметров во всех сервисах на паттерн стратегию
         checkEmptyObject(search);
         return groupService.search(search);
     }

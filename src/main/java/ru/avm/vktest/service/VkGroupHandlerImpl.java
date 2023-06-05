@@ -27,13 +27,13 @@ public class VkGroupHandlerImpl implements VkGroupHandler{
     private final VkApiClientGetter vkApiClientGetter;
 //    private final ToDTOMapper<GetByIdObjectLegacyResponse> toVkGroupMapper;
     private final ToDTOMapper<GroupFull> toVkGroupFullMapper;
-//Todo разобраться с парсингом ответа при получении групп пользователя
     @Override
     public Set<VkGroup> findUserGroupByTitle(UserActor actor, Integer userId, String title) {
 //        List<GetByIdObjectLegacyResponse> response;
         List<GroupFull> response;
         try {
             response = vkApiClientGetter.getClient().groups().getObjectExtended(actor).userId(userId).extended(true).execute().getItems();
+            //Todo костыльное решение, можно удалить.
 //            com.vk.api.sdk.objects.groups.responses.GetResponse groups = vkApiClientGetter.getClient().groups().get(actor).userId(userId).extended(false).execute();
 //            response = vkApiClientGetter.getClient().groups()
 //                    .getByIdObjectLegacy(actor)
